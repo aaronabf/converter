@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="Description" content="Converter"/>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+  <title>Converter</title>
+  <link rel="stylesheet" type="text/css" charset="utf-8" href="css/style.css"/>
+  <script language="javascript" type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+  <script language="javascript" type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+
+  <input type="text" id="input" name="input" placeholder="Input here" />
+  <select id="type" name="type">
+    <option value="auto" selected>(auto detect)</option>
+    <option value="binary">Binary</option>
+    <option value="decimal">Decimal</option>
+    <option value="hexidecimal">Hexidecimal</option>
+  </select>
+
+  <br>
+
+  <p>Binary: </p>
+  <p id="binary"></p>
+  <p>Decimal:</p>
+  <p id="decimal"></p>
+  <p>Hex: </p>
+  <p id="hexidecimal"></p>
+
+</body>
+</html>
