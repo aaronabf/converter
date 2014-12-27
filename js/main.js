@@ -8,23 +8,27 @@ $(document).ready(function(){
   function update() {
     var value = $("#input").val();
     var signed = $("#signed").val() === 'signed';
-    var type = detect(value, signed);
+    var type = $("#type").val();
+    var detectedType = detect(value, signed);
+
+    if (type === 'auto') {
+      type = detectedType;
+    }
+
+    changeTextColors(type);
 
     if (value === '') {
       setAllText('','','');
-    } else if (type !== 'invalid') {
-      if (type === 'signed') {
-        $("#type").val('decimal');
-        $("#signed").val('signed');
-      } else {
-        $("#type").val(type);
-      }
+    } else if (detectedType === 'invalid' || !isSubType(type, detectedType)) {
+      setAllText('Invalid input.', 'Invalid input.', 'Invalid input.');
+    } else {
+      // if (type === 'signed') {
+      //   $("#signed").val('signed');
+      // }
 
       setAllText(convertToBinary(value, type),
                  convertToDecimal(value, type),
                  convertToHexidecimal(value, type));
-    } else {
-      setAllText('Invalid input.', 'Invalid input.', 'Invalid input.');
     }
   }
 
@@ -70,26 +74,63 @@ $(document).ready(function(){
     // If contains '-' then must be a signed decimal.
     if (signed) {
       return 'signed'
+    }
     // If only 1s and 0s then detect as binary.
-    } else if (bin) {
+    else if (bin) {
       return 'binary';
+    }
     // If only digits then detect as decimal.
-    } else if (dec) {
+    else if (dec) {
       return 'decimal';
+    }
     // If digits, a 0x, and/or letters A-F then detect as hex.
-    } else if (hex) {
+    else if (hex) {
       return 'hexidecimal';
+    }
     // Otherwise the input is invalid.
-    } else {
+    else {
       return 'invalid';
     }
   }
 
   // Sets the text for each type.
   function setAllText(binText, decText, hexText) {
-    $("#binary").html(binText);
-    $("#decimal").html(decText);
-    $("#hexidecimal").html(hexText);
+    $("#binaryNum").html(binText);
+    $("#decimalNum").html(decText);
+    $("#hexidecimalNum").html(hexText);
+  }
+
+  // Sets text color as of the type to black and to default text color.
+  function changeTextColors(type) {
+    ['binary', 'decimal', 'hexidecimal'].forEach(function (t) {
+      var color;
+
+      if (t === type) {
+        color = '#000';
+      } else {
+        color = '#FAA';
+      }
+
+      $("#" + t).css('color', color);
+    });
+  }
+
+  // Ensures that type is a "subtype" of the detectedType. For example, if we
+  // detected the type is decimal, then the selected type cannot be binary.
+  function isSubType(type, detectedType) {
+    var bool = false;
+
+    // No, there are no breaks missing below.
+    switch (detectedType) {
+      case 'binary':
+        bool |= (type === 'binary');
+      case 'decimal':
+        bool |= (type === 'decimal');
+      case 'hexidecimal':
+        bool |= (type === 'hexidecimal');
+      default:
+        return bool;
+    }
   }
 
   // Converts input 'input' of type 'type' to binary.

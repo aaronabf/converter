@@ -29,26 +29,31 @@
     <br/>
     <br/>
 
-    <div>Binary:
-      <span id="binary"></span>
+    <div>
+      <span id="binary" class="text">Binary:</span>
+      <span id="binaryNum" class="num"></span>
     </div>
 
     <br/>
 
-    <div>Decimal:
-      <span id="decimal"></span>
+    <div>
+      <span id="decimal" class="text">Decimal:</span>
+      <span id="decimalNum" class="num"></span>
     </div>
 
     <br/>
 
-    <div>Hex:
-      <span id="hexidecimal"></span>
+    <div>
+      <span id="hexidecimal" class="text">Hex:</span>
+      <span id="hexidecimalNum" class="num"></span>
     </div>
 
     <br/>
 
-    <div id="footer">(Note: signed conversion is designed
-      for 32-bit numbers and can break on edge cases.)</div>
+    <div id="footer">
+      (Note: signed conversion is designed for 32-bit numbers
+        and will not work properly for values less than -2^31.)
+    </div>
   </div>
 </body>
 </html>
