@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="Description" content="Converter"/>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+  <title>Converter</title>
+  <link rel="stylesheet" type="text/css" charset="utf-8" href="css/style.css"/>
+  <script language="javascript" type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+  <script language="javascript" type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+  <div id="main">
+    <br/>
+
+    <input type="text" id="input" name="input" placeholder="Input here." />
+
+    <select id="type" name="type">
+      <option value="auto" selected>(auto detect type)</option>
+      <option value="binary">Binary</option>
+      <option value="decimal">Decimal</option>
+      <option value="hexidecimal">Hexidecimal</option>
+    </select>
+    <select id="signed" name="signed">
+      <option value="unsigned" selected>Unsigned</option>
+      <option value="signed">Signed</option>
+    </select>
+
+    <br/>
+    <br/>
+
+    <div>Binary:
+      <span id="binary"></span>
+    </div>
+
+    <br/>
+
+    <div>Decimal:
+      <span id="decimal"></span>
+    </div>
+
+    <br/>
+
+    <div>Hex:
+      <span id="hexidecimal"></span>
+    </div>
+
+    <br/>
+
+    <div id="footer">(Note: signed conversion is designed
+      for 32-bit numbers and can break on edge cases.)</div>
+  </div>
+</body>
+</html>
