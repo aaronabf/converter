@@ -11,22 +11,25 @@
 </head>
 <body>
 
-  <input type="text" id="input" name="input" placeholder="Input here" />
+  <input type="text" id="input" name="input" placeholder="Input here." />
   <select id="type" name="type">
     <option value="auto" selected>(auto detect)</option>
     <option value="binary">Binary</option>
     <option value="decimal">Decimal</option>
     <option value="hexidecimal">Hexidecimal</option>
   </select>
+  <select id="signed" name="signed">
+    <option value="unsigned" selected>Unsigned</option>
+    <option value="signed">Signed</option>
+  </select>
 
   <br>
 
   <p>Binary: </p>
   <p id="binary"></p>
-  <p>Decimal:</p>
+  <p>Decimal: </p>
   <p id="decimal"></p>
   <p>Hex: </p>
   <p id="hexidecimal"></p>
-
 </body>
 </html>

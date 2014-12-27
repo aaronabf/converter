@@ -1,7 +1,10 @@
 html, body {
-	margin: 0;
+  margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
   background: #135ca0;
+  font-size: 30px;
+  text-align: center;
+  color: white;
 }
