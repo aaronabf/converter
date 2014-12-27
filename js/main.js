@@ -7,25 +7,36 @@ $(document).ready(function(){
   // Auto-selects correct type and sets the text for each type.
   function update() {
     var value = $("#input").val();
-    var signed = $("#signed").val() === 'signed';
     var type = $("#type").val();
-    var detectedType = detect(value, signed);
+    var detectedType = detectType(value);
+    var signed = isSigned(value);
 
+    // Check if the auto select is turned on.
     if (type === 'auto') {
       type = detectedType;
     }
 
+    // If there is a '-' then we set selection to signed.
+    if (signed) {
+      $("#signed").html('(signed)');
+    } else {
+      $("#signed").html('(unsigned)');
+    }
+
+    // Changes the text color to designate the type selected.
     changeTextColors(type);
 
+    // Determines if the input is valid and converts/sets the text.
     if (value === '') {
       setAllText('','','');
-    } else if (detectedType === 'invalid' || !isSubType(type, detectedType)) {
+    } else if (detectedType === 'invalid' ||
+               !isSubType(type, detectedType) ||
+               signed && type !== 'decimal') {
       setAllText('Invalid input.', 'Invalid input.', 'Invalid input.');
     } else {
-      // if (type === 'signed') {
-      //   $("#signed").val('signed');
-      // }
-
+      if (signed) {
+        type = 'signedDec';
+      }
       setAllText(convertToBinary(value, type),
                  convertToDecimal(value, type),
                  convertToHexidecimal(value, type));
@@ -33,11 +44,11 @@ $(document).ready(function(){
   }
 
   // Detects the type of the input.
-  function detect(input) {
+  function detectType(input) {
     var bin = true;
     var hex = true;
     var dec = true;
-    var signed = false;
+    var signedError = false;
 
     // Loop through each character
     for (var i = 0; i < input.length; i++) {
@@ -59,21 +70,20 @@ $(document).ready(function(){
         }
       } else if (x === '-') {
         // Check for '-' in the beginning of a decimal number.
-        if (i === 0 && input.length !== 1) {
-          signed = true;
+        if (i !== 0 || input.length === 1) {
+          signedError = true;
         }
 
-        bin = hex = dec = false;
-        break;
+        bin = hex = false;
       } else {
         bin = hex = dec = false;
         break;
       }
     }
 
-    // If contains '-' then must be a signed decimal.
-    if (signed) {
-      return 'signed'
+    // If a '-' is not at the beginning then there is an error.
+    if (signedError) {
+      return 'invalid'
     }
     // If only 1s and 0s then detect as binary.
     else if (bin) {
@@ -83,7 +93,7 @@ $(document).ready(function(){
     else if (dec) {
       return 'decimal';
     }
-    // If digits, a 0x, and/or letters A-F then detect as hex.
+    // If digits, a 0x, and/or letters A-F then detect as hexidecimal.
     else if (hex) {
       return 'hexidecimal';
     }
@@ -91,6 +101,11 @@ $(document).ready(function(){
     else {
       return 'invalid';
     }
+  }
+
+  // Detects if the input is signed.
+  function isSigned(input) {
+    return (input.length !== 0 && input[0] === '-');
   }
 
   // Sets the text for each type.
@@ -107,7 +122,9 @@ $(document).ready(function(){
 
       if (t === type) {
         color = '#000';
-      } else {
+      } else if (t === 'decimal' && type === 'signedDec') {
+        color = '#000';
+      }else {
         color = '#FAA';
       }
 
@@ -134,7 +151,7 @@ $(document).ready(function(){
   }
 
   // Converts input 'input' of type 'type' to binary.
-  function convertToBinary(input, type) {
+  function convertToBinary(input, type, signed) {
     var x = input.replace('-', '');
 
     switch (type) {
@@ -144,7 +161,7 @@ $(document).ready(function(){
         return parseInt(x, 10).toString(2);
       case 'hexidecimal':
         return parseInt(x, 16).toString(2);
-      case 'signed':
+      case 'signedDec':
         return convertToTwos(x);
       default: // This should never be reached
         return '';
@@ -152,7 +169,7 @@ $(document).ready(function(){
   }
 
   // Converts input 'input' of type 'type' to hexidecimal.
-  function convertToHexidecimal(input, type) {
+  function convertToHexidecimal(input, type, signed) {
     var x = input.replace('-', '');
 
     switch (type) {
@@ -162,7 +179,7 @@ $(document).ready(function(){
         return parseInt(x, 10).toString(16);
       case 'hexidecimal':
         return x;
-      case 'signed':
+      case 'signedDec':
         return parseInt(convertToTwos(x), 2).toString(16);
       default: // This should never be reached.
         return '';
@@ -170,12 +187,12 @@ $(document).ready(function(){
   }
 
   // Converts input 'input' of type 'type' to decimal.
-  function convertToDecimal(input, type) {
+  function convertToDecimal(input, type, signed) {
     switch (type) {
       case 'binary':
         return parseInt(input, 2).toString(10);
       case 'decimal':
-      case 'signed':
+      case 'signedDec':
         return input;
       case 'hexidecimal':
         return parseInt(input, 16).toString(10);
@@ -191,6 +208,10 @@ $(document).ready(function(){
       .replace(/[01]/g, function(c) { return +!+c; });
 
     // Adds padding for 32-bits.
-    return Array(32 - converted.length + 1).join(1) + converted
+    if (32 - converted.length + 1 < 0) {
+      return '0';
+    } else {
+      return Array(32 - converted.length + 1).join(1) + converted;
+    }
   }
 });

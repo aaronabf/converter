@@ -16,7 +16,11 @@ html, body {
 #footer {
   position: fixed;
   bottom: 1%;
-  font-size: 16px;
+  font-size: 14px;
+}
+
+#signed {
+  font-size: 14px;
 }
 
 .text {
@@ -40,8 +44,3 @@ input {
 select {
   width: 11em;
 }
-
-
-
-
-
