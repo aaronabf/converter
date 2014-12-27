@@ -10,26 +10,45 @@
   <script language="javascript" type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
+  <div id="main">
+    <br/>
 
-  <input type="text" id="input" name="input" placeholder="Input here." />
-  <select id="type" name="type">
-    <option value="auto" selected>(auto detect)</option>
-    <option value="binary">Binary</option>
-    <option value="decimal">Decimal</option>
-    <option value="hexidecimal">Hexidecimal</option>
-  </select>
-  <select id="signed" name="signed">
-    <option value="unsigned" selected>Unsigned</option>
-    <option value="signed">Signed</option>
-  </select>
+    <input type="text" id="input" name="input" placeholder="Input here." />
 
-  <br>
+    <select id="type" name="type">
+      <option value="auto" selected>(auto detect type)</option>
+      <option value="binary">Binary</option>
+      <option value="decimal">Decimal</option>
+      <option value="hexidecimal">Hexidecimal</option>
+    </select>
+    <select id="signed" name="signed">
+      <option value="unsigned" selected>Unsigned</option>
+      <option value="signed">Signed</option>
+    </select>
 
-  <p>Binary: </p>
-  <p id="binary"></p>
-  <p>Decimal: </p>
-  <p id="decimal"></p>
-  <p>Hex: </p>
-  <p id="hexidecimal"></p>
+    <br/>
+    <br/>
+
+    <div>Binary:
+      <span id="binary"></span>
+    </div>
+
+    <br/>
+
+    <div>Decimal:
+      <span id="decimal"></span>
+    </div>
+
+    <br/>
+
+    <div>Hex:
+      <span id="hexidecimal"></span>
+    </div>
+
+    <br/>
+
+    <div id="footer">(Note: signed conversion is designed
+      for 32-bit numbers and can break on edge cases.)</div>
+  </div>
 </body>
 </html>
