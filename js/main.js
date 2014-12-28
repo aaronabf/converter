@@ -28,6 +28,7 @@ $(document).ready(function(){
 
     // Determines if the input is valid and converts/sets the text.
     if (value === '') {
+      changeTextColors('');
       setAllText('','','');
     } else if (detectedType === 'invalid' ||
                !isSubType(type, detectedType) ||
